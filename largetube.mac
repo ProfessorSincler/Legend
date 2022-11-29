@@ -1,0 +1,18 @@
+/run/verbose 0
+/tracking/verbose 0
+/run/setCut 3.0 cm
+/tracking/verbose 0
+/WLGD/detector/setGeometry baseline_large_reentrance_tube
+/WLGD/detector/With_NeutronModerators 3
+/WLGD/detector/Which_Material GadoPMMA
+/WLGD/detector/TurbineAndTube_Radius 200 cm
+/WLGD/detector/TurbineAndTube_Height 300 cm
+/WLGD/event/saveAllEvents 1
+#Init
+/run/initialize
+#Idle state
+/WLGD/step/getDepositionInfo 1
+/WLGD/step/getIndividualDepositionInfo 1
+/WLGD/generator/setGenerator Musun
+/WLGD/generator/setMUSUNFile //home/.../simulations/musun/musun_gs_50k_0001.dat
+/run/beamOn 5000
