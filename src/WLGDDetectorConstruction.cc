@@ -77,6 +77,10 @@ void WLGDDetectorConstruction::DefineMaterials()
   auto* Ca = new G4Element("Calcium", "Ca", 20., 40.08 * g / mole);
   auto* Mg = new G4Element("Magnesium", "Mg", 12., 24.31 * g / mole);
 
+  G4Element* elGd = new G4Element("Gadolinium", "Gd", 64, 157.25 * g / mole); //Sincler moved
+  G4Element* elS  = new G4Element("Sulfur", "S", 16., 32.066 * g / mole);
+  G4cout << elGd << G4endl;  
+
   // Standard Rock definition, similar to Gran Sasso rock
   // with density from PDG report
   auto* stdRock = new G4Material("StdRock", 2.65 * g / cm3, 4);
@@ -100,20 +104,6 @@ void WLGDDetectorConstruction::DefineMaterials()
   G4double B_NumberRatio = 1 / (1 + (1 - B_MassRatio) / B_MassRatio * 10. / 11.);
   SpecialB->AddIsotope(B10, B_NumberRatio);
   SpecialB->AddIsotope(B11, 1 - B_NumberRatio);
-
-  // Sincler - Changed position 
-  G4Element* elGd = new G4Element("Gadolinium", "Gd", 64, 157.25 * g / mole);
-  G4Element* elS  = new G4Element("Sulfur", "S", 16., 32.066 * g / mole);
-  G4cout << elGd << G4endl;
-
-  G4double density = 3.01 * g / cm3;  // https://www.sigmaaldrich.com/catalog/product/aldrich/203300?lang=de&region=DE
-                                      // @room temp
-  G4Material* gadoliniumSulfate =
-    new G4Material("GadoliniumSulfate", density, 3);  // Gd2(SO4)3
-  gadoliniumSulfate->AddElement(elGd, 2);
-  gadoliniumSulfate->AddElement(elS, 3);
-  gadoliniumSulfate->AddElement(O, 12);
-  // Sincler - end changes //
 
   // Borated Polyethylene according to GEM TN-92-172 TART Calculations of Neutron
   // Attenuation and Neutron-induced Photons on 5 % and 20 % Borated Polyethylene Slabs
@@ -149,7 +139,7 @@ void WLGDDetectorConstruction::DefineMaterials()
   G4double SSB = 1.00 * doplevel;
   
   // Sincler - Borated PMMA
-  auto* BoratedPMMA = new G4Material("BoratedPMMA", densityBPMMA * g / cm3, 5);
+  auto* BoratedPMMA = new G4Material("BoratedPMMA", densityBPMMA * g / cm3, 4);
   BoratedPMMA->AddElement(H, Hfrac);
   BoratedPMMA->AddElement(C, Cfrac);
   BoratedPMMA->AddElement(O, Ofrac);
@@ -169,19 +159,27 @@ void WLGDDetectorConstruction::DefineMaterials()
   G4double SSGado = 1.00 * gadoplevel;
 
   // Sincler - Gadolinized PMMA
-  auto* GadoPMMA = new G4Material("GadoPMMA", densityGadoPMMA * g / cm3, 6);
+  auto* GadoPMMA = new G4Material("GadoPMMA", densityGadoPMMA * g / cm3, 4);
   GadoPMMA->AddElement(H, GadoHfrac);
   GadoPMMA->AddElement(C, GadoCfrac);
   GadoPMMA->AddElement(O, GadoOfrac);
   GadoPMMA->AddElement(elGd, SSGado);
 
   // Sincler - Poly-GadoliniumMethacrylate - poly(MMA-co-Gd(MAA)3) - Wang et al. 2017
-  auto* Gado381PMMA = new G4Material("Gado381PMMA", 1.2 * g / cm3, 7);
+  auto* Gado381PMMA = new G4Material("Gado381PMMA", 1.2 * g / cm3, 4);
   Gado381PMMA->AddElement(H, 0.0758);
   Gado381PMMA->AddElement(C, 0.5820);
   Gado381PMMA->AddElement(O, 0.3041);
   Gado381PMMA->AddElement(elGd, 0.0381);
- 
+
+  G4double density = 3.01 * g / cm3;  // https://www.sigmaaldrich.com/catalog/product/aldrich/203300?lang=de&region=DE
+                                      // @room temp
+  G4Material* gadoliniumSulfate =
+    new G4Material("GadoliniumSulfate", density, 3);  // Gd2(SO4)3
+  gadoliniumSulfate->AddElement(elGd, 2);
+  gadoliniumSulfate->AddElement(elS, 3);
+  gadoliniumSulfate->AddElement(O, 12);
+   
   G4Material* purewater = G4Material::GetMaterial(
     "G4_WATER");  // EDIT: changed water to purewater & use it to create "special" water
   water = new G4Material("GdLoadedWater", 1.000000 * g / cm3, 2);
@@ -651,7 +649,7 @@ auto WLGDDetectorConstruction::SetupBaseline() -> G4VPhysicalVolume*
 
   if(fGeometryName == "baseline_smaller" || fGeometryName == "baseline_large_reentrance_tube_4m_cryo")
   {
-    cryrad     = 200.0;  // cryostat diam 4 m
+    cryrad     = 275.0;  // cryostat diam 4 m -  origina 200 - Sincler
     cryhheight = 225.0;  // cryostat height 4.5 m
   }
   // Borated PET tubes around copper tubes

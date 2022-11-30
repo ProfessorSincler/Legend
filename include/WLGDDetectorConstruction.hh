@@ -100,13 +100,13 @@ private:
   G4Cache<WLGDCrystalSD*> fSD                      = nullptr;
   G4double                fXeConc                  = 0.0;
   G4double                fHe3Conc                 = 0.0;
-  G4double                fCryostatOuterRadius     = 275.0; // sincler - 350 original
+  G4double                fCryostatOuterRadius     = 350.0; // sincler - 350 original
   G4double                fCryostatHeight          = 350.0; // sincler - 350 original
-  G4double                fBoratedTurbineRadius    = 200.0;
+  G4double                fBoratedTurbineRadius    = 200.0; // Moderator Radius
   G4double                fBoratedTurbineLength    = 50.0;
   G4double                fBoratedTurbineAngle     = 45.0;
-  G4double                fBoratedTurbineWidth     = 5.0;
-  G4double                fBoratedTurbineHeight    = 600.;
+  G4double                fBoratedTurbineWidth     = 10.0; // Moderator Thickeness - 5.0 original 
+  G4double                fBoratedTurbineHeight    = 300.; // Moderator Height - 600 original 
   G4double                fBoratedTurbinezPosition = 0.;
   G4int                   fNPanels;
   G4int                   fBoratedTurbineNPanels = 0;
